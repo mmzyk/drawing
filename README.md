@@ -1,7 +1,7 @@
 
 # Drawing
 
-## A simple script for picking random winning entries from a list
+A simple script for picking random winning entries from a list
 
 ### Usage
 
@@ -17,6 +17,6 @@ for instance, only the winning one is removed).
 
 ### License
 
-All files in this repository are copyright under the Apache 2.0 license.
-See the LICENSE file for full details
+All files in this repository are copyright under the Apache 2.0 license.  
+See the LICENSE file for full details.
 

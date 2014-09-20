@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Drawing: a generic framework to draw winners from a list
+# Drawing: a generic framework to draw random winners from a list
 
 def read_file(filename)
   # Expects a file with one name per line
