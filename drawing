@@ -1,0 +1,90 @@
+#!/usr/bin/env ruby
+
+# Copyright 2014 Mark Mzyk
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Drawing: a generic framework to draw winners from a list
+
+def read_file(filename)
+  # Expects a file with one name per line
+  names = []
+  File.open(filename, "r") do |file|
+    while (name = file.gets)
+      names << name
+    end
+  end
+  names
+end
+
+def determine_args
+  unless (ARGV.length == 1 || ARGV.length == 2)
+    usage
+    exit
+  end
+
+  filename = ARGV[0]
+
+  if ARGV.length == 2
+    draws = ARGV[1].to_i
+  else
+    # Default to just picking 1 winner
+    draws = 1
+  end
+
+  [filename, draws]
+end
+
+def usage
+  puts <<USAGE
+Usage: drawing file draws
+
+Where file is a file that contains each of the entries to be picked from,
+one entry per line, with no extra whitespace in the file.
+
+Draws is the number of winners who should be picked. After each winner
+is picked they are automatically removed from the entry list (but only
+the winning entry is removed; if an entry appears twice in the list,
+for instance, only the winning one is removed).
+
+USAGE
+end
+
+def shuffle_deck(names)
+  # Let's shuffle the deck somewhere between 10 and 100 times
+  # because why not? Might as well make this more random, even
+  # if it doesn't likely matter
+  shuffle_number = Random.rand(10..100)
+  shuffle_number.times { names.shuffle! }
+end
+
+def draw_winner(names)
+  # let's pull a random # that will be our index into the array
+  winner = Random.rand(0..(names.length-1))
+  # delete_at will remove the winner from the array
+  # and return the winner's name at the same time
+  names.delete_at(winner)
+end
+
+def pick_winner(draws, names)
+  draws.times do
+    shuffle_deck(names)
+    winner = draw_winner(names)
+    puts "The winner is #{winner}"
+  end
+end
+
+filename, draws = determine_args
+names = read_file(filename)
+pick_winner(draws, names)
+
